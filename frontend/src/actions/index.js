@@ -1,5 +1,5 @@
 import * as types from './actionTypes'
-import { NetworkBlog } from '../networkBlog'
+import NetworkBlog from '../networkBlog'
 
 console.log('NetworkBlog', NetworkBlog)
 
@@ -11,6 +11,10 @@ export const receiveCategories = categories => ({
   type: types.RECEIVE_CATEGORIES,
   categories
 })
+export const sortPostsAction = key => ({
+  type: types.SORT_POSTS,
+  key: key,
+});
 
 
 export const fetchCategories = () => dispatch => {
@@ -18,8 +22,11 @@ export const fetchCategories = () => dispatch => {
   return NetworkBlog
       .getCategories()
       .then(categories => {
-      	console.log('received categories', categories)
-      	return dispatch(receiveCategories(categories))
+        const categoriesFullLink = categories.map((category)=>{
+          category.path = `/category/${category.path}`
+          return category
+        })
+      	return dispatch(receiveCategories(categoriesFullLink))
       })
 }
 
@@ -42,6 +49,37 @@ export const fetchPosts = () => dispatch => {
       	console.log('received posts', posts)
       	return dispatch(receivePosts(posts))
       })
+}
+
+//VOTE
+const upVotePostAction = (post) => ({
+  type: types.UPVOTE_POST,
+  post
+})
+const downVotePostAction = (post) => ({
+  type: types.DOWNVOTE_POST,
+  post
+})
+
+export const upVotePost = (id) => dispatch => {
+  return NetworkBlog
+      .upVotePost(id)
+      .then(post => {
+        console.log('upvote post', post)
+        dispatch(upVotePostAction(post))
+      })
+}
+export const downVotePost = (id) => dispatch => {
+  return NetworkBlog
+      .downVotePost(id)
+      .then(post => {
+        console.log('upvote post', post)
+        dispatch(downVotePostAction(post))
+      })
+}
+
+export const sortPosts = (key) => dispatch => {
+  return dispatch(sortPostsAction(key))
 }
 
 // POST: ADD, EDIT, VOTE

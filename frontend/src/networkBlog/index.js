@@ -11,8 +11,14 @@ const getCategories = () => fetch(`${URL}/categories`, getOptionsWithMethod("GET
 const getPosts = () => fetch(`${URL}/posts`, getOptionsWithMethod("GET"))
 							.then(res => res.json() || [])
 
+const voteGeneric = (key) => (id) => fetch(`${URL}/posts/${id}`, getOptionsWithMethod("POST"), {option: key})
+              .then(res => res.json() || [])
 
-export const NetworkBlog = {
-	getCategories,
-	getPosts,
+const NetworkBlog = {
+  getCategories,
+  getPosts,
+  upVotePost: voteGeneric('upVote'),
+  downVotePost: voteGeneric('downVote'),
 }
+
+export default NetworkBlog

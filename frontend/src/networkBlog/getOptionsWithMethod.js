@@ -1,5 +1,10 @@
-const headers = new Headers()
-headers.append("Authorization", "test1");
+// const headers = new Headers()
+// headers.append("Authorization", "test1");
+
+const headers = {
+  Authorization: 'test1',
+  'Content-Type': 'application/json',
+}
 
 
 export const getOptionsWithMethod = method => ({
@@ -8,3 +13,5 @@ export const getOptionsWithMethod = method => ({
 	// mode: "cors",
 	// cache: "default"
 });
+
+

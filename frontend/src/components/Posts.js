@@ -3,22 +3,27 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { fetchPosts } from "../actions";
+import Post from "./Post";
 
 class Posts extends Component {
 	static propTypes = {
+		categoryPath: PropTypes.string
 	};
 	componentDidMount() {
 		const { fetchPosts } = this.props
 		fetchPosts()
 	}
 	render() {
-		const {posts, isFetching} = this.props
+		const {posts, isFetching, categoryPath} = this.props
+		var postsPosibleFiltered = posts
+		if (categoryPath) {
+			postsPosibleFiltered = posts.filter((p)=>(p.category === categoryPath))
+		}
+
 		return (
 			<div className="posts">
-				{posts.map((post, index) => (
-					<article key={post.id}>
-						{post.title}
-					</article>
+				{!isFetching && postsPosibleFiltered.map((post, index) => (
+					<Post key={index} post={post} />
 				))}
 			</div>
 		);

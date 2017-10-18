@@ -9,6 +9,7 @@ import CategoryMenuElement from "./CategoryMenuElement"
 
 class Categories extends Component {
 	static propTypes = {
+		cateogryPath: PropTypes.string
 	};
 
 	componentDidMount() {
@@ -17,11 +18,12 @@ class Categories extends Component {
 	}
 	render() {
 		const {categories, isFetching} = this.props
+		const categoriesWithAll = [{name: "All", path: "/"}].concat(categories)
 		return (
 			<nav className="Categories">
 				<h2>Categories</h2>
 				<ul>
-					{!isFetching && categories.map((category, index) => (
+					{!isFetching && categoriesWithAll.map((category, index) => (
 						<li key={index}>
 							<CategoryMenuElement category={category} />
 						</li>

@@ -11,7 +11,7 @@ class CategoryMenuElement extends Component {
 		const {category} = this.props
 		return (
 			<Link
-	        to={`/category/${category.path}`}
+	        to={category.path}
 	        className='search'
 	      	>
           		{category.name}

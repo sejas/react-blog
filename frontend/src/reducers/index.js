@@ -1,13 +1,15 @@
 import * as types from '../actions/actionTypes'
 import { combineReducers } from 'redux'
+import sortBy from 'sort-by';
 
 import {
   receivePosts,
-  receiveCategories
+  receiveCategories,
 } from '../actions'
 
 
 const DEFAULT_STATE_POSTS = {
+  lastSortKey: '',
   isFetching: false,
   items: []
 }
@@ -23,6 +25,23 @@ export const posts = (state=DEFAULT_STATE_POSTS, action) => {
         ...state,
         items: action.posts,
         isFetching: false
+      }
+    case types.DOWNVOTE_POST:
+    case types.UPVOTE_POST:
+      const {post} = action
+      const postWithUpdatedPost = state.items.map((p)=>((p.id === post.id)
+        ?post
+        :p))
+      return {
+        ...state,
+        items: postWithUpdatedPost
+      }
+    case types.SORT_POSTS:
+      const copyPosts = Object.assign([], state.items)
+      return {
+        ...state,
+        items: copyPosts.sort(sortBy(action.key)),
+        lastSortKey: action.key
       }
     default :
       return state
