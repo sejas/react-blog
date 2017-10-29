@@ -3,23 +3,31 @@ import PropTypes from 'prop-types'
 import PostFooterInfo from './PostFooterInfo'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { upVotePost, downVotePost } from "../actions";
+import { upVotePost, downVotePost, upVoteComment, downVoteComment } from "../actions";
 
 class Vote extends Component {
 	static propTypes = {
-		post_id: PropTypes.string.isRequired,
+		elementId: PropTypes.string.isRequired,
+		isComment: PropTypes.bool,
 	};
 
 	upVote = () => {
-		const { upVotePost, post_id } = this.props
-		upVotePost(post_id)
+		const { upVotePost, elementId, isComment} = this.props
+		if (isComment) {
+			upVoteComment(elementId)
+		}else{
+			upVotePost(elementId)
+		}
 	}
 	downVote = () => {
-		const { downVotePost, post_id } = this.props
-		downVotePost(post_id)
+		const { downVotePost, elementId, isComment} = this.props
+		if (isComment) {
+			downVoteComment(elementId)
+		}else{
+			downVotePost(elementId)
+		}
 	}
 	render() {
-		const {post} = this.props
 		return (
 			<div className="vote">
 				<span>Vote: </span>
@@ -39,7 +47,9 @@ const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			upVotePost,
-			downVotePost
+			downVotePost,
+			upVoteComment,
+			downVoteComment
 		},
 		dispatch
 	);

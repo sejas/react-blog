@@ -3,7 +3,62 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
-
+#root {
+  padding: 20px;
+}
 .hover {
   cursor: pointer;
+}
+
+
+/*post*/
+.content {
+  background: #eee;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+/*comments*/
+.comments .comment {
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+.comment-body {
+  margin-bottom: 10px;
+}
+
+.comment-extra,
+.post-footer {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  margin-bottom: 10px;
+
+}
+
+.comment-extra > div,
+.post-footer > div {
+  margin-right: 20px;
+}
+
+
+
+/*vote*/
+.vote span.hover {
+  margin-right: 5px;
+  background-color: #000;
+  color: #FFF;
+  width: 25px;
+  display: inline-block;
+  text-align: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  transition: background-color 0.6s ease-out;
+}
+.vote span.hover:hover {
+  background-color: #ccc;
 }

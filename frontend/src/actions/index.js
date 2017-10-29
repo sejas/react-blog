@@ -60,6 +60,14 @@ const downVotePostAction = (post) => ({
   type: types.DOWNVOTE_POST,
   post
 })
+const upVoteCommentAction = (comment) => ({
+  type: types.UPVOTE_COMMENT,
+  comment
+})
+const downVoteCommentAction = (comment) => ({
+  type: types.DOWNVOTE_COMMENT,
+  comment
+})
 
 export const upVotePost = (id) => dispatch => {
   return NetworkBlog
@@ -77,9 +85,50 @@ export const downVotePost = (id) => dispatch => {
         dispatch(downVotePostAction(post))
       })
 }
+export const upVoteComment = (id) => dispatch => {
+  return NetworkBlog
+      .upVoteComment(id)
+      .then(comment => {
+        console.log('upvote comment', comment)
+        dispatch(upVoteCommentAction(comment))
+      })
+}
+export const downVoteComment = (id) => dispatch => {
+  return NetworkBlog
+      .downVoteComment(id)
+      .then(comment => {
+        console.log('upvote comment', comment)
+        dispatch(downVoteCommentAction(comment))
+      })
+}
 
 export const sortPosts = (key) => dispatch => {
   return dispatch(sortPostsAction(key))
+}
+
+
+
+
+
+// COMMENTS
+const requestComments = (postId) => ({
+  type: types.REQUEST_COMMENTS,
+  postId
+})
+const receiveComments = (postId, comments) => ({
+  type: types.RECEIVE_COMMENTS,
+  comments,
+  postId
+})
+
+export const fetchComments = (postId) => dispatch => {
+  dispatch(requestComments())
+  return NetworkBlog
+      .getCommentsForPost(postId)
+      .then(comments => {
+        console.log('received comments', comments)
+        return dispatch(receiveComments(postId, comments))
+      })
 }
 
 // POST: ADD, EDIT, VOTE

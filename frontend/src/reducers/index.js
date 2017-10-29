@@ -10,15 +10,18 @@ import {
 
 const DEFAULT_STATE_POSTS = {
   lastSortKey: '',
+  postsHasBeenRequested: false, // Used to load posts if you refresh the browser
   isFetching: false,
-  items: []
+  items: [],
+  comments: {}
 }
 export const posts = (state=DEFAULT_STATE_POSTS, action) => {
   switch (action.type) {
     case types.REQUEST_POSTS:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
+        postsHasBeenRequested: true,
       }
     case types.RECEIVE_POSTS:
       return {
@@ -43,6 +46,15 @@ export const posts = (state=DEFAULT_STATE_POSTS, action) => {
         items: copyPosts.sort(sortBy(action.key)),
         lastSortKey: action.key
       }
+    case types.RECEIVE_COMMENTS:
+
+    return {
+      ...state,
+      comments: {
+        ...state.comments,
+        [action.postId]: action.comments
+      }
+    }
     default :
       return state
   }

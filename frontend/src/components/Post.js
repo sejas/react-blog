@@ -23,7 +23,7 @@ class Post extends Component {
 	      	>{post.title}</Link> </h2>
 				<div className="content"> {post.body} </div>
 				<PostFooterInfo post={post} />
-				<Vote post_id={post.id} />
+				<Vote elementId={post.id} />
 			</article>
 		);
 	}
