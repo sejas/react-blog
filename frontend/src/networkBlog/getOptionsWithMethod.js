@@ -7,11 +7,17 @@ const headers = {
 }
 
 
-export const getOptionsWithMethod = method => ({
-	method,
-	headers,
-	// mode: "cors",
-	// cache: "default"
-});
+export const getOptionsWithMethod = (method, body) => {
+  var result = {
+  method,
+  headers,
+  // mode: "cors",
+  // cache: "default"
+}
+if (body) {
+  result.body = JSON.stringify(body)
+}
+  return result
+};
 
 

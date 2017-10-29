@@ -1,6 +1,6 @@
 import {getOptionsWithMethod} from './getOptionsWithMethod'
 
-const URL = "http://localhost:5001";
+const URL = "http://localhost:3001";
 
 // API Methods
 const getCategories = () => fetch(`${URL}/categories`, getOptionsWithMethod("GET"))
@@ -11,7 +11,7 @@ const getCategories = () => fetch(`${URL}/categories`, getOptionsWithMethod("GET
 const getPosts = () => fetch(`${URL}/posts`, getOptionsWithMethod("GET"))
 							.then(res => res.json() || [])
 
-const voteGeneric = (key) => (id) => fetch(`${URL}/posts/${id}`, getOptionsWithMethod("POST"), {option: key})
+const voteGeneric = (key) => (id) => fetch(`${URL}/posts/${id}`, getOptionsWithMethod("POST", {option: key}))
               .then(res => res.json() || [])
 
 const NetworkBlog = {
