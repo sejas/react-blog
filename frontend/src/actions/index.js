@@ -23,7 +23,7 @@ export const fetchCategories = () => dispatch => {
       .getCategories()
       .then(categories => {
         const categoriesFullLink = categories.map((category)=>{
-          category.path = `/category/${category.path}`
+          category.path = `/categories/${category.path}`
           return category
         })
       	return dispatch(receiveCategories(categoriesFullLink))
