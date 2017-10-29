@@ -81,7 +81,7 @@ export const downVotePost = (id) => dispatch => {
   return NetworkBlog
       .downVotePost(id)
       .then(post => {
-        console.log('upvote post', post)
+        console.log('downvote post', post)
         dispatch(downVotePostAction(post))
       })
 }
@@ -97,7 +97,7 @@ export const downVoteComment = (id) => dispatch => {
   return NetworkBlog
       .downVoteComment(id)
       .then(comment => {
-        console.log('upvote comment', comment)
+        console.log('downvote comment', comment)
         dispatch(downVoteCommentAction(comment))
       })
 }

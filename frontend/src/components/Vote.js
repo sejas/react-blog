@@ -12,7 +12,7 @@ class Vote extends Component {
 	};
 
 	upVote = () => {
-		const { upVotePost, elementId, isComment} = this.props
+		const { upVotePost, upVoteComment, elementId, isComment} = this.props
 		if (isComment) {
 			upVoteComment(elementId)
 		}else{
@@ -20,7 +20,7 @@ class Vote extends Component {
 		}
 	}
 	downVote = () => {
-		const { downVotePost, elementId, isComment} = this.props
+		const { downVotePost, downVoteComment, elementId, isComment} = this.props
 		if (isComment) {
 			downVoteComment(elementId)
 		}else{

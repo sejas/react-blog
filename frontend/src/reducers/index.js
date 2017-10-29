@@ -39,6 +39,19 @@ export const posts = (state=DEFAULT_STATE_POSTS, action) => {
         ...state,
         items: postWithUpdatedPost
       }
+    case types.DOWNVOTE_COMMENT:
+    case types.UPVOTE_COMMENT:
+      const {comment} = action
+      const commentsUpdated = state.comments[comment.parentId].map((c)=>((c.id === comment.id)
+        ?comment
+        :c))
+      return {
+        ...state,
+        comments: {
+          ...state.comments,
+          [comment.parentId]: commentsUpdated
+        }
+      }
     case types.SORT_POSTS:
       const copyPosts = Object.assign([], state.items)
       return {
