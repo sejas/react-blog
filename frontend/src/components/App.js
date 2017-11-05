@@ -13,18 +13,9 @@ class App extends Component {
         	<Blog />
         )}/>
 
-        <Route path='/categories/:categoryPath' component={Category}/>
+        <Route exact path='/:categoryPath' component={Category}/>
 
-        <Route path='/category/:postId' component={PostDetail}/>
-
-        <Route exact path='/detail' render={() => (
-        	<h1>Detail</h1>
-        )}/>
-
-        <Route exact path='/edit' render={() => (
-        	<h1>Edit</h1>
-        )}/>
-
+        <Route exact path='/:categoryPath/:postId' component={PostDetail}/>
 
       </div>
     );

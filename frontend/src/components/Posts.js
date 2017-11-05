@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { fetchPosts } from "../actions";
 import Post from "./Post";
+import PostAdd from './PostAdd'
+
 
 class Posts extends Component {
 	static propTypes = {
@@ -25,6 +27,8 @@ class Posts extends Component {
 				{!isFetching && postsPosibleFiltered.map((post, index) => (
 					<Post key={index} post={post} />
 				))}
+
+				<PostAdd />
 			</div>
 		);
 	}

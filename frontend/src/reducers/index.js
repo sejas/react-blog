@@ -68,6 +68,23 @@ export const posts = (state=DEFAULT_STATE_POSTS, action) => {
         [action.postId]: action.comments
       }
     }
+    case types.DELETE_POST:
+    return {
+      ...state,
+      items: state.items.filter(p => (p.id != action.postId)),
+      comments: {
+        ...state.comments,
+        [action.postId]: null
+      }
+    }
+    case types.DELETE_COMMENT:
+    return {
+      ...state,
+      comments: {
+        ...state.comments,
+        [action.comment.parentId]: state.comments.filter(c => c.id!=action.comment.id)
+      }
+    }
     default :
       return state
   }

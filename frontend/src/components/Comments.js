@@ -36,6 +36,10 @@ class Comments extends Component {
 								))}
 								<Vote elementId={c.id} isComment={true}/>
 						</div>
+						<div className="pd-edit-comment">
+								<span className="hover button" onClick={this.editPost}> Edit </span> /
+								<span className="hover button" onClick={this.deletePost}> Delete </span>
+						</div>
 					</div>
 				))}
 			</div>

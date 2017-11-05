@@ -19,7 +19,7 @@ class Post extends Component {
 		return (
 			<article className="post">
 				<h2> <Link
-	        to={`/category/${post.id}`}
+	        to={`/${post.category}/${post.id}`}
 	      	>{post.title}</Link> </h2>
 				<div className="content"> {post.body} </div>
 				<PostFooterInfo post={post} />

@@ -6,7 +6,8 @@ body {
 #root {
   padding: 20px;
 }
-.hover {
+.hover,
+.button {
   cursor: pointer;
 }
 
@@ -61,4 +62,32 @@ body {
 }
 .vote span.hover:hover {
   background-color: #ccc;
+}
+
+
+/*Create*/
+.comment-add {
+  margin-top: 70px;
+}
+.button-add {
+  text-align: center;
+}
+.btn-plus {
+  transform: rotate(0deg);
+  transition: transform 0.2s ease-out;
+}
+.rotate-btn-plus {
+  transform: rotate(45deg);
+  transition: transform 0.2s ease-out;
+}
+
+/*form*/
+label,
+input,
+textarea,
+select {
+  display: block;
+  margin-bottom: 20px;
+  width: 300px;
+  max-width: 100%;
 }

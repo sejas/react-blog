@@ -5,7 +5,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Post from './Post'
 import Comments from './Comments'
-import { fetchComments, fetchPosts } from "../actions";
+import { fetchComments, fetchPosts, deletePost } from "../actions";
+import CommentAdd from './CommentAdd'
 
 
 
@@ -23,6 +24,19 @@ class PostDetail extends Component {
 		}
 	}
 
+	editPost = () => {
+
+	}
+	deletePost = (e) => {
+		const {match, deletePost} = this.props
+		const {postId} = match.params
+		if (window.confirm("Are you sure, you want to delete this post?")) {
+			deletePost(postId).then((p)=>{
+				window.location.href = '/'
+			})
+		}
+	}
+
 	render() {
 		const {posts, comments, match} = this.props
 		const postId = match.params.postId
@@ -33,10 +47,19 @@ class PostDetail extends Component {
 				<Post
 					post={post||{}}
 				/>
-				<h3>Comments</h3>
-				<Comments
-					comments={comments[postId]||[]}
-				/>
+				<div className="pd-edit-post">
+						<span className="hover button" onClick={this.editPost}> Edit </span> /
+						<span className="hover button" onClick={this.deletePost}> Delete </span>
+				</div>
+				{comments.length > 0 &&
+					<div>
+						<h3>Comments</h3>
+						<Comments
+							comments={comments[postId]||[]}
+						/>
+						<CommentAdd  />
+					</div>
+				}
 			</div>
 		);
 	}
@@ -54,6 +77,7 @@ const mapDispatchToProps = dispatch =>
 		{
 			fetchComments,
 			fetchPosts,
+			deletePost
 		},
 		dispatch
 	);

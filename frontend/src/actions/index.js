@@ -3,7 +3,7 @@ import NetworkBlog from '../networkBlog'
 
 console.log('NetworkBlog', NetworkBlog)
 
-// CATEGORIES
+// MARK: - CATEGORIES
 export const requestCategories = () => ({
   type: types.REQUEST_CATEGORIES
 })
@@ -23,7 +23,7 @@ export const fetchCategories = () => dispatch => {
       .getCategories()
       .then(categories => {
         const categoriesFullLink = categories.map((category)=>{
-          category.path = `/categories/${category.path}`
+          category.path = `/${category.path}`
           return category
         })
       	return dispatch(receiveCategories(categoriesFullLink))
@@ -31,7 +31,7 @@ export const fetchCategories = () => dispatch => {
 }
 
 
-// POSTS
+// MARK: - POSTS
 export const requestPosts = () => ({
   type: types.REQUEST_POSTS
 })
@@ -50,6 +50,28 @@ export const fetchPosts = () => dispatch => {
       	return dispatch(receivePosts(posts))
       })
 }
+
+
+// MARK: - POST
+//DELETE
+const deletePostRequestAction = (postId) => ({
+  type: types.DELETE_REQUEST_POST,
+  postId
+})
+const deletePostAction = (postId) => ({
+  type: types.DELETE_POST,
+  postId
+})
+export const deletePost = (postId) => dispatch => {
+  dispatch(deletePostRequestAction(postId))
+  return NetworkBlog
+      .deletePost(postId)
+      .then(post => {
+        console.log('post deleted', post)
+        dispatch(deletePostAction(postId))
+      })
+}
+
 
 //VOTE
 const upVotePostAction = (post) => ({
@@ -110,7 +132,7 @@ export const sortPosts = (key) => dispatch => {
 
 
 
-// COMMENTS
+// MARK: - COMMENTS
 const requestComments = (postId) => ({
   type: types.REQUEST_COMMENTS,
   postId
@@ -127,9 +149,99 @@ export const fetchComments = (postId) => dispatch => {
       .getCommentsForPost(postId)
       .then(comments => {
         console.log('received comments', comments)
-        return dispatch(receiveComments(postId, comments))
+        return dispatch(receiveComments(postId, comments.filter(c=>(!c.deleted && !c.parentDeleted))))
+      })
+}
+
+//DELETE
+const deleteCommentRequestAction = (comment) => ({
+  type: types.DELETE_REQUEST_COMMENT,
+  comment
+})
+const deleteCommentAction = (comment) => ({
+  type: types.DELETE_COMMENT,
+  comment
+})
+export const deleteComment = (comment) => dispatch => {
+  dispatch(deleteCommentRequestAction(comment))
+  return NetworkBlog
+      .deleteComment(comment)
+      .then(answer => {
+        console.log('comment deleted', answer)
+        dispatch(deleteCommentAction(comment))
+      })
+}
+
+//CREATE
+const createCommentRequestAction = (comment) => ({
+  type: types.CREATE_REQUEST_COMMENT,
+  comment
+})
+const createCommentAction = (comment) => ({
+  type: types.CREATE_COMMENT,
+  comment
+})
+export const createComment = (comment) => dispatch => {
+  dispatch(createCommentRequestAction(comment))
+  return NetworkBlog
+      .createComment(comment)
+      .then(answer => {
+        console.log('createComment', answer)
+        dispatch(createCommentAction(comment))
+      })
+}
+const createPostRequestAction = (post) => ({
+  type: types.CREATE_REQUEST_POST,
+  post
+})
+const createPostAction = (post) => ({
+  type: types.CREATE_POST,
+  post
+})
+export const createPost = (post) => dispatch => {
+  dispatch(createPostRequestAction(post))
+  return NetworkBlog
+      .createPost(post)
+      .then(answer => {
+        console.log('createPost', answer)
+        dispatch(createPostAction(post))
+      })
+}
+//EDIT
+const editCommentRequestAction = (comment) => ({
+  type: types.EDIT_REQUEST_COMMENT,
+  comment
+})
+const editCommentAction = (comment) => ({
+  type: types.EDIT_COMMENT,
+  comment
+})
+export const editComment = (comment) => dispatch => {
+  dispatch(editCommentRequestAction(comment))
+  return NetworkBlog
+      .editComment(comment)
+      .then(answer => {
+        console.log('editComment', answer)
+        dispatch(editCommentAction(comment))
+      })
+}
+const editPostRequestAction = (post) => ({
+  type: types.EDIT_REQUEST_POST,
+  post
+})
+const editPostAction = (post) => ({
+  type: types.EDIT_POST,
+  post
+})
+export const editPost = (post) => dispatch => {
+  dispatch(editPostRequestAction(post))
+  return NetworkBlog
+      .editPost(post)
+      .then(answer => {
+        console.log('editPost', answer)
+        dispatch(editPostAction(post))
       })
 }
 
 // POST: ADD, EDIT, VOTE
-// COMMENT: ADD
+// POST: ADD
