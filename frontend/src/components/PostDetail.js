@@ -40,7 +40,7 @@ class PostDetail extends Component {
 	deletePost = (e) => {
 		const {match, deletePost} = this.props
 		const {postId} = match.params
-		if (window.confirm("Are you sure, you want to delete this post?")) {
+		if (window.confirm("Are you sure, you want to delete this post and all its comments?")) {
 			deletePost(postId).then((p)=>{
 				window.location.href = '/'
 			})
@@ -66,6 +66,7 @@ class PostDetail extends Component {
 						<h3>Comments</h3>
 						<Comments
 							comments={comments[postId]}
+							postId={postId}
 						/>
 					</div>
 				}

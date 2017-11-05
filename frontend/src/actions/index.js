@@ -154,21 +154,23 @@ export const fetchComments = (postId) => dispatch => {
 }
 
 //DELETE
-const deleteCommentRequestAction = (comment) => ({
+const deleteCommentRequestAction = (commentId, parentId) => ({
   type: types.DELETE_REQUEST_COMMENT,
-  comment
+  commentId,
+  parentId
 })
-const deleteCommentAction = (comment) => ({
+const deleteCommentAction = (commentId, parentId) => ({
   type: types.DELETE_COMMENT,
-  comment
+  commentId,
+  parentId
 })
-export const deleteComment = (comment) => dispatch => {
-  dispatch(deleteCommentRequestAction(comment))
+export const deleteComment = (commentId, parentId) => dispatch => {
+  dispatch(deleteCommentRequestAction(commentId, parentId))
   return NetworkBlog
-      .deleteComment(comment)
+      .deleteComment(commentId)
       .then(answer => {
-        console.log('comment deleted', answer)
-        dispatch(deleteCommentAction(comment))
+        console.log('commentId deleted', answer)
+        dispatch(deleteCommentAction(commentId, parentId))
       })
 }
 

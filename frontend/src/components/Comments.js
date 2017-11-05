@@ -3,11 +3,36 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Vote from './Vote'
+import { deleteComment } from "../actions";
+import CommentAdd from './CommentAdd'
+import Modal from 'react-modal';
 
 class Comments extends Component {
 	static propTypes = {
 
 	};
+
+	state = {
+		showEdit: false,
+		commentToEdit: {}
+
+	}
+
+	closeModal = () => {
+		this.setState({showEdit: false})
+	}
+
+
+	editComment = comment => () => {
+		this.setState({
+			commentToEdit: comment,
+			showEdit: true
+		})
+	}
+	deleteComment = comment => () => {
+		this.props.deleteComment(comment.id, comment.parentId)
+	}
+
 
 	keys = [
 		{
@@ -20,7 +45,8 @@ class Comments extends Component {
 		},
 	]
 	render() {
-		const {post, comments} = this.props
+		const {comments, postId} = this.props
+		const {commentToEdit} = this.state
 		return (
 			<div className="comments">
 				{comments.map((c)=>(
@@ -37,11 +63,22 @@ class Comments extends Component {
 								<Vote elementId={c.id} isComment={true}/>
 						</div>
 						<div className="pd-edit-comment">
-								<span className="hover button" onClick={this.editPost}> Edit </span> /
-								<span className="hover button" onClick={this.deletePost}> Delete </span>
+								<span className="hover button" onClick={this.editComment(c)}> Edit </span> /
+								<span className="hover button" onClick={this.deleteComment(c)}> Delete </span>
 						</div>
 					</div>
 				))}
+
+				<Modal
+				  isOpen={this.state.showEdit}
+				  onRequestClose={this.closeModal}
+				  contentLabel="Modal"
+				>
+				  <h2>Edit Comment</h2>
+				  <CommentAdd comment={commentToEdit} postId={postId} callBack={this.closeModal} />
+				</Modal>
+
+
 			</div>
 		);
 	}
@@ -55,6 +92,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
+			deleteComment
 		},
 		dispatch
 	);

@@ -78,11 +78,12 @@ export const posts = (state=DEFAULT_STATE_POSTS, action) => {
       }
     }
     case types.DELETE_COMMENT:
+    const {commentId, parentId} = action
     return {
       ...state,
       comments: {
         ...state.comments,
-        [action.comment.parentId]: state.comments.filter(c => c.id!=action.comment.id)
+        [parentId]: state.comments[parentId].filter(c => c.id!=commentId)
       }
     }
     default :
