@@ -18,6 +18,12 @@ body {
   padding: 10px;
   margin-bottom: 30px;
 }
+.pd-edit-post {
+  margin-top: 20px;
+}
+.pd-edit-post span:hover {
+  text-decoration: underline;
+}
 
 /*comments*/
 .comments .comment {
@@ -68,6 +74,9 @@ body {
 /*Create*/
 .comment-add {
   margin-top: 70px;
+}
+.ReactModalPortal .comment-add {
+  margin-top: 0;
 }
 .button-add {
   text-align: center;

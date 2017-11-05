@@ -28,9 +28,9 @@ const createComment = (comment) => fetch(`${URL}/comments`, getOptionsWithMethod
               .then(res => res.json() || [])
 const createPost = (post) => fetch(`${URL}/posts`, getOptionsWithMethod("POST", {...post, id:uuid()}))
               .then(res => res.json() || [])
-const editComment = (comment) => fetch(`${URL}/comments${comment.id}`, getOptionsWithMethod("PUT", comment))
+const editComment = (comment) => fetch(`${URL}/comments/${comment.id}`, getOptionsWithMethod("PUT", comment))
               .then(res => res.json() || [])
-const editPost = (post) => fetch(`${URL}/posts${post.id}`, getOptionsWithMethod("PUT", post))
+const editPost = (post) => fetch(`${URL}/posts/${post.id}`, getOptionsWithMethod("PUT", post))
               .then(res => res.json() || [])
 
 const NetworkBlog = {

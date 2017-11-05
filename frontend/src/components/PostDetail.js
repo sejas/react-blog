@@ -5,8 +5,10 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import Post from './Post'
 import Comments from './Comments'
-import { fetchComments, fetchPosts, deletePost } from "../actions";
+import { fetchComments, fetchPosts, fetchCategories, deletePost } from "../actions";
 import CommentAdd from './CommentAdd'
+import PostAdd from './PostAdd'
+import Modal from 'react-modal';
 
 
 
@@ -15,17 +17,25 @@ class PostDetail extends Component {
 
 	};
 
+	state = {
+		showEdit: false,
+	}
+
 	componentDidMount() {
-		const { fetchComments, fetchPosts, match, postsHasBeenRequested } = this.props
+		const { fetchComments, fetchPosts, fetchCategories, match, postsHasBeenRequested } = this.props
 		fetchComments(match.params.postId)
 
 		if (!postsHasBeenRequested) {
 			fetchPosts()
+			fetchCategories()
 		}
 	}
 
 	editPost = () => {
-
+		this.setState({showEdit: true})
+	}
+	closeModal = () => {
+		this.setState({showEdit: false})
 	}
 	deletePost = (e) => {
 		const {match, deletePost} = this.props
@@ -51,15 +61,26 @@ class PostDetail extends Component {
 						<span className="hover button" onClick={this.editPost}> Edit </span> /
 						<span className="hover button" onClick={this.deletePost}> Delete </span>
 				</div>
-				{comments.length > 0 &&
+				{(comments[postId] || []).length > 0 &&
 					<div>
 						<h3>Comments</h3>
 						<Comments
-							comments={comments[postId]||[]}
+							comments={comments[postId]}
 						/>
-						<CommentAdd  />
 					</div>
 				}
+				<CommentAdd postId={postId} />
+
+
+
+				<Modal
+				  isOpen={this.state.showEdit}
+				  onRequestClose={this.closeModal}
+				  contentLabel="Modal"
+				>
+				  <h2>Edit Post</h2>
+				  <PostAdd post={post} callBack={this.closeModal} />
+				</Modal>
 			</div>
 		);
 	}
@@ -77,6 +98,7 @@ const mapDispatchToProps = dispatch =>
 		{
 			fetchComments,
 			fetchPosts,
+			fetchCategories,
 			deletePost
 		},
 		dispatch

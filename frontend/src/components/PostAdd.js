@@ -55,7 +55,7 @@ class PostAdd extends Component {
 
     return (
       <form onSubmit={this.submit}>
-        <h2>New Post</h2>
+        {!this.props.post && <h2>New Post</h2>}
         <label htmlFor="category">
           Category
           <select name="category" onChange={this.onChange('category')} value={this.state.form.category}>
@@ -90,7 +90,7 @@ class PostAdd extends Component {
 
   submit = (e) => {
     e.preventDefault();
-    const {createPost, editPost, post, fetchPosts, categories} = this.props
+    const {createPost, editPost, post, fetchPosts, categories, callBack} = this.props
     const formTosend = {
       ...this.state.form
     }
@@ -102,29 +102,42 @@ class PostAdd extends Component {
       formTosend.category = (categories[0]||{name:''}).name
     }
     if (post) {
+      editPost(formTosend).then(()=>{
+        fetchPosts()
+        if ('function' === typeof callBack) {
+          callBack()
+        }
+      })
+    }else{
       createPost(formTosend).then(()=>{
         this.initState()
         fetchPosts()
-      })
-    }else{
-      editPost(formTosend).then(()=>{
-        this.initState()
-        fetchPosts()
+        if ('function' === typeof callBack) {
+          callBack()
+        }
       })
     }
   }
 
   render() {
-   return (
-     <div className="comment-add">
-       {this.state.showForm &&
-         this.renderForm()
-       }
+    if (this.props.post) {
+      return (
+        <div className="comment-add">
+          {this.renderForm()}
+        </div>
+      )
+    }else{
+      return (
+        <div className="comment-add">
+          {this.state.showForm &&
+            this.renderForm()
+          }
 
-       {this.renderPlus()}
+          {this.renderPlus()}
 
-     </div>
-   );
+        </div>
+      )
+    }
 
   }
 }
