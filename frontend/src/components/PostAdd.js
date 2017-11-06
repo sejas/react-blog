@@ -103,6 +103,9 @@ class PostAdd extends Component {
     if (''===formTosend.title) {
       return alert('Sorry, the title is a required field. Try again.')
     }
+    if (''===formTosend.author) {
+      return alert('Sorry, the author is a required field. Try again.')
+    }
 
     if ('' === formTosend.category) {
       formTosend.category = (categories[0]||{name:''}).name
