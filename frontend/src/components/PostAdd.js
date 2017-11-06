@@ -20,6 +20,7 @@ class PostAdd extends Component {
       category: '',
       title: '',
       body: '',
+      author: '',
     }
   }
 
@@ -32,6 +33,7 @@ class PostAdd extends Component {
         category: (categories[0]||{name:''}).name,
         title: '',
         body: '',
+        author: '',
       }})
     }
   }
@@ -67,6 +69,10 @@ class PostAdd extends Component {
         <label htmlFor="title">
           Title
           <input type="text" name="title" onChange={this.onChange('title')} value={this.state.form.title} />
+        </label>
+        <label htmlFor="author">
+          Author
+          <input type="text" name="author" onChange={this.onChange('author')} value={this.state.form.author} />
         </label>
         <label htmlFor="body">
           Body
