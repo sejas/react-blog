@@ -16,6 +16,10 @@ export const sortPostsAction = key => ({
   key: key,
 });
 
+export const sortPostsWithLastKeyAction = () => ({
+  type: types.SORT_POSTS_WITH_LAST_KEY,
+});
+
 
 export const fetchCategories = () => dispatch => {
   dispatch(requestCategories())
@@ -47,7 +51,8 @@ export const fetchPosts = () => dispatch => {
       .getPosts()
       .then(posts => {
       	console.log('received posts', posts)
-      	return dispatch(receivePosts(posts))
+      	dispatch(receivePosts(posts))
+        return dispatch(sortPostsWithLastKeyAction())
       })
 }
 

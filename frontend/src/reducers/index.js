@@ -59,6 +59,15 @@ export const posts = (state=DEFAULT_STATE_POSTS, action) => {
         items: copyPosts.sort(sortBy(action.key)),
         lastSortKey: action.key
       }
+    case types.SORT_POSTS_WITH_LAST_KEY:
+      if (''===state.lastSortKey) {
+        return state
+      }
+      const copyPosts2 = Object.assign([], state.items)
+      return {
+        ...state,
+        items: copyPosts2.sort(sortBy(state.lastSortKey)),
+      }
     case types.RECEIVE_COMMENTS:
 
     return {

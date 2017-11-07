@@ -38,8 +38,8 @@ class PostDetail extends Component {
 		this.setState({showEdit: false})
 	}
 	deletePost = (e) => {
-		const {match, deletePost} = this.props
-		const {postId} = match.params
+		const {deletePost} = this.props
+		const postId = this.postId()
 		if (window.confirm("Are you sure, you want to delete this post and all its comments?")) {
 			deletePost(postId).then((p)=>{
 				window.location.href = '/'

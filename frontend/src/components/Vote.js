@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import PostFooterInfo from './PostFooterInfo'
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { upVotePost, downVotePost, upVoteComment, downVoteComment } from "../actions";
+import { upVotePost, downVotePost, upVoteComment, downVoteComment, sortPosts } from "../actions";
 
 class Vote extends Component {
 	static propTypes = {
@@ -12,19 +12,23 @@ class Vote extends Component {
 	};
 
 	upVote = () => {
-		const { upVotePost, upVoteComment, elementId, isComment} = this.props
+		const { upVotePost, upVoteComment, elementId, isComment, sortPosts, lastSortKey} = this.props
 		if (isComment) {
 			upVoteComment(elementId)
 		}else{
-			upVotePost(elementId)
+			upVotePost(elementId).then(()=>{
+				sortPosts(lastSortKey)
+			})
 		}
 	}
 	downVote = () => {
-		const { downVotePost, downVoteComment, elementId, isComment} = this.props
+		const { downVotePost, downVoteComment, elementId, isComment, sortPosts, lastSortKey} = this.props
 		if (isComment) {
 			downVoteComment(elementId)
 		}else{
-			downVotePost(elementId)
+			downVotePost(elementId).then(()=>{
+				sortPosts(lastSortKey)
+			})
 		}
 	}
 	render() {
@@ -40,7 +44,8 @@ class Vote extends Component {
 
 
 
-const mapStateToProps = state => ({
+const mapStateToProps = ({posts}) => ({
+	lastSortKey: posts.lastSortKey
 });
 
 const mapDispatchToProps = dispatch =>
@@ -49,7 +54,8 @@ const mapDispatchToProps = dispatch =>
 			upVotePost,
 			downVotePost,
 			upVoteComment,
-			downVoteComment
+			downVoteComment,
+			sortPosts
 		},
 		dispatch
 	);
