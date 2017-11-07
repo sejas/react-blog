@@ -22,8 +22,8 @@ class PostDetail extends Component {
 	}
 
 	componentDidMount() {
-		const { fetchComments, fetchPosts, fetchCategories, match, postsHasBeenRequested } = this.props
-		fetchComments(match.params.postId)
+		const { fetchComments, fetchPosts, fetchCategories, postsHasBeenRequested } = this.props
+		fetchComments(this.postId())
 
 		if (!postsHasBeenRequested) {
 			fetchPosts()
@@ -47,9 +47,25 @@ class PostDetail extends Component {
 		}
 	}
 
+	showExtraForDetail = (comments, postId) => (
+		<div>
+			{(comments[postId] || []).length > 0 &&
+				<div>
+					<h3>Comments</h3>
+					<Comments
+						comments={comments[postId]}
+						postId={postId}
+					/>
+				</div>}
+			<CommentAdd postId={postId} />
+		</div>
+	)
+	postId = () => {
+		return this.props.postId || this.props.match.params.postId
+	}
 	render() {
-		const {posts, comments, match} = this.props
-		const postId = match.params.postId
+		const {posts, comments, isDetail} = this.props
+		const postId = this.postId()
 		const post = posts.find((p)=>(p.id == postId))
 		return (
 			<div className="post-detail">
@@ -61,16 +77,9 @@ class PostDetail extends Component {
 						<span className="hover button" onClick={this.editPost}> Edit </span> /
 						<span className="hover button" onClick={this.deletePost}> Delete </span>
 				</div>
-				{(comments[postId] || []).length > 0 &&
-					<div>
-						<h3>Comments</h3>
-						<Comments
-							comments={comments[postId]}
-							postId={postId}
-						/>
-					</div>
-				}
-				<CommentAdd postId={postId} />
+
+				{isDetail && this.showExtraForDetail(comments, postId)}
+
 
 
 

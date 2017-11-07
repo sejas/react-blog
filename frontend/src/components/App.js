@@ -15,7 +15,9 @@ class App extends Component {
 
         <Route exact path='/:categoryPath' component={Category}/>
 
-        <Route exact path='/:categoryPath/:postId' component={PostDetail}/>
+        <Route exact path='/:categoryPath/:postId' render={(props)=>(
+          <PostDetail {...props} isDetail={true} />
+        )}/>
 
       </div>
     );
