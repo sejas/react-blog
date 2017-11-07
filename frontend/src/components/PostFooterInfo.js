@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import PropTypes from 'prop-types'
 
 class PostFooterInfo extends Component {
@@ -14,13 +16,13 @@ class PostFooterInfo extends Component {
 	]
 
 	render() {
-		const {post} = this.props
+		const {post, comments} = this.props
 		return (
 			<div className="post-footer">
 				{this.info.map((elem)=> (
 					elem.id == 'comments'
 					?<div key={elem.id} className={elem.id}>
-						<u>{elem.label}</u>: {(post[elem.id] && post[elem.id].length) || 0}
+						<u>{elem.label}</u>: {(comments && comments.length) || 0}
 					</div>
 					:<div key={elem.id} className={elem.id}>
 						<u>{elem.label}</u>: {post[elem.id]}
@@ -33,4 +35,19 @@ class PostFooterInfo extends Component {
 }
 
 
-export default PostFooterInfo
+
+const mapStateToProps = (state, props) => {
+	const {post} = props
+	return {
+		comments: state.posts.comments[post.id],
+	}
+};
+
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+		},
+		dispatch
+	);
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostFooterInfo);
